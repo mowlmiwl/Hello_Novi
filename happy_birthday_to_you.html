@@ -1,0 +1,380 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#101b2a">
+<title>Kasus 001 · Misteri Ulang Tahun</title>
+<style>
+:root{--bg:#101b2a;--bg2:#172638;--panel:#1d3044;--panel2:#24394e;--ink:#f4efe7;--muted:#b3bec8;--line:#3b5064;--rose:#d99a9d;--gold:#d8b77c;--green:#8bc2a2;--red:#e29a91}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(ellipse at 50% -10%,#34485a 0,#172638 45%,#0e1723 100%);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
+button,input{font:inherit}
+button{cursor:pointer}
+.wrap{width:min(100% - 24px,980px);margin:auto;padding:18px 0 36px}
+.nav{display:flex;justify-content:space-between;align-items:center;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#c2ccd3;margin:4px 3px 16px}
+.brand{font-weight:800;color:var(--gold)}
+.tag{border:1px solid #536477;border-radius:99px;padding:7px 10px}
+.screen{display:none;animation:appear .4s ease both}
+.screen.active{display:block}
+@keyframes appear{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.card{background:linear-gradient(145deg,#21364a,#192b3e);border:1px solid #40556a;border-radius:24px;box-shadow:0 22px 65px #0005;overflow:hidden;padding:22px}
+.hero{text-align:center;padding:26px 20px 30px;background:linear-gradient(160deg,#2b4054,#17283b 70%);position:relative}
+.hero:before,.hero:after{content:"✦";position:absolute;color:#d8b77c66;font-size:24px}
+.hero:before{top:22px;left:24px}
+.hero:after{right:25px;bottom:25px}
+.emblem{width:112px;height:112px;margin:2px auto 18px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle,#f3e6cc 0 32%,#d8b77c 33% 35%,#34495d 37% 100%);box-shadow:0 0 0 8px #d8b77c12,0 14px 32px #0005}
+.emblem svg{width:64px;height:64px}
+.eyebrow{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:800}
+h1,h2{font-family:Georgia,serif;font-weight:500;letter-spacing:-.035em;color:#fff4e6}
+h1{font-size:clamp(39px,10vw,65px);line-height:1.02;margin:15px 0 12px}
+h2{font-size:clamp(28px,7vw,39px);margin:8px 0 12px}
+.lead{font-family:Georgia,serif;color:#e2d8cb;font-size:18px;line-height:1.65;max-width:520px;margin:0 auto 18px}
+.muted{color:var(--muted);font-size:13px;line-height:1.7}
+.btn{border:0;border-radius:12px;padding:14px 18px;background:linear-gradient(135deg,#d9b77c,#bd9860);color:#1b2935;font-weight:800;box-shadow:0 8px 22px #0003;transition:.18s}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.06)}
+.btn.alt{background:#344b60;color:#f5eee4;border:1px solid #60758a;box-shadow:none}
+.btn.whatsapp{background:#20bd67;color:white;box-shadow:0 9px 25px #20bd6733}
+.btnrow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:17px}
+.head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.level{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:800}
+.count{font-size:10px;border:1px solid var(--line);border-radius:99px;padding:7px 9px;color:var(--muted);white-space:nowrap}
+.progress{height:5px;border-radius:99px;background:#0f1a27;margin:16px 0 19px;overflow:hidden}
+.progress span{height:100%;display:block;background:linear-gradient(90deg,var(--rose),var(--gold));transition:width .4s}
+.scene{border:1px solid #56697a;border-radius:17px;overflow:hidden;background:#172536;margin:16px 0 12px}
+.scene svg{display:block;width:100%;height:auto}
+.scene-caption{font-size:11px;color:#aebbc6;padding:9px 12px;background:#182a3d;border-top:1px solid #405267}
+.hotspots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
+.hot{border:1px solid #50657a;background:#263d52;color:#e9e3da;border-radius:12px;padding:11px 7px;min-height:68px;font-size:12px}
+.hot b{display:block;font-size:17px;margin-bottom:3px;color:var(--gold)}
+.hot.selected{border-color:var(--gold);background:#4a4350;box-shadow:inset 0 0 0 1px var(--gold)}
+.hot.good{border-color:var(--green);background:#28493e}
+.hot.bad{border-color:var(--red);background:#50353a}
+.boxnote{background:#172638;border:1px solid #3e5368;border-radius:13px;padding:13px;color:#d4dce2;font-size:13px;line-height:1.65;margin:12px 0}
+.feedback{min-height:23px;font-size:12px;color:var(--muted);margin:11px 0 0}
+.feedback.good{color:var(--green);font-weight:700}
+.feedback.bad{color:var(--red)}
+.input{width:100%;min-width:0;border:1px solid #566b7e;border-radius:12px;background:#101e2d;color:white;padding:14px;outline:none}
+.input:focus{border-color:var(--gold);box-shadow:0 0 0 3px #d8b77c20}
+.cipher{font:800 clamp(17px,5vw,23px) ui-monospace,monospace;letter-spacing:.13em;text-align:center;color:#f0d7a9;background:#101e2d;border:1px solid #455b70;border-radius:13px;padding:17px 8px;margin:13px 0}
+.lockclues{display:grid;gap:8px;margin:14px 0}
+.lockclue{display:flex;gap:13px;align-items:center;border:1px solid #3f5469;background:#172638;border-radius:11px;padding:10px 12px}
+.lockclue b{font:800 16px ui-monospace,monospace;letter-spacing:.2em;color:var(--gold);min-width:45px}
+.lockclue span{font-size:12px;color:#d0d8de;line-height:1.45}
+.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:13px auto;max-width:280px}
+.key{padding:13px;border:1px solid #52687c;background:#2b4257;border-radius:10px;color:#fff;font-weight:800;font-size:17px}
+.key:active{background:#53677a}
+.finalart{border:1px solid #685b51;border-radius:17px;background:linear-gradient(145deg,#f1dfc8,#d7bca5);color:#283443;padding:21px;text-align:center;margin:16px 0}
+.finalart h2{color:#29394a}
+.finalart p{font-family:Georgia,serif;font-size:16px;line-height:1.75;color:#4d5962}
+.stamp{width:62px;height:62px;border-radius:50%;margin:0 auto 13px;display:grid;place-items:center;border:2px solid var(--green);color:var(--green);font-size:29px}
+.wa-info{background:#142536;border:1px solid #3b5267;border-radius:13px;padding:14px;margin:13px 0;color:#c6d0d7;font-size:12px;line-height:1.65}
+.foot{text-align:center;color:#8493a0;font-size:10px;letter-spacing:.12em;margin:18px 0 0}
+@media(min-width:600px){
+.wrap{padding-top:28px}
+.card{padding:30px}
+.hero{padding:38px 45px}
+.hotspots{gap:12px}
+.hot{padding:14px;font-size:13px}
+}
+/* Tata letak khusus PC/laptop */
+@media(min-width:820px){
+.wrap{width:min(100% - 64px,980px);padding-top:34px}
+.nav{font-size:11px;margin-bottom:20px}
+.card{padding:36px;border-radius:26px}
+.hero{padding:52px 70px}
+.emblem{width:128px;height:128px}
+.scene svg{max-height:430px}
+.scene-caption{font-size:12px;padding:12px 16px}
+.hotspots{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.hot{min-height:88px;font-size:13px;padding:15px 12px}
+.lockclues{max-width:760px;margin:18px auto}
+.cipher{padding:22px;font-size:25px}
+.input{max-width:680px;display:block;margin-left:auto;margin-right:auto}
+.btnrow{gap:14px}
+.btn{min-width:170px}
+.finalart{max-width:760px;margin:22px auto;padding:30px 42px}
+}
+@media(min-width:1100px){
+.wrap{width:980px}
+.hero{padding-top:60px;padding-bottom:60px}
+.lead{font-size:20px}
+}
+/* Sentuhan interaksi untuk tetikus, tanpa mengganggu layar sentuh */
+@media(hover:hover) and (pointer:fine){
+.hot:hover{border-color:var(--gold);background:#344b60;transform:translateY(-2px)}
+.key:hover{background:#405a70}
+}
+@media(max-width:360px){
+.wrap{width:calc(100% - 16px)}
+.card{padding:17px}
+.hot{font-size:11px}
+}
+@media(prefers-reduced-motion:reduce){
+*{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+
+    
+<div class="wrap">
+ <div class="nav"><span class="brand">ARSIP DETEKTIF · 10112002</span><span class="tag">INI BISA DIMAININ DI PC DAN HP YAH</span></div>
+
+ <section id="opening" class="screen active">
+  <div class="card hero">
+   <div class="emblem">
+    <svg viewBox="0 0 100 100" fill="none" aria-label="Ikon kaca pembesar"><circle cx="42" cy="40" r="24" stroke="#26394a" stroke-width="7"/><path d="M59 58L82 82" stroke="#26394a" stroke-width="10" stroke-linecap="round"/><path d="M31 38C34 27 45 22 55 28" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".7"/></svg>
+   </div>
+   <div class="eyebrow">Satu hari yang sangat kamu nantikan</div>
+   <h1>Selamat Ulang Tahun<br>Novia Ramadhani</h1>
+   <p class="lead">Satu tahun umur novi bertambah dan entah bagaimana dunia terlihat sangat menarik dengan kehadiranmu.</p>
+   <p class="muted" style="max-width:480px;margin:0 auto 23px">I set some a little adventure for you. Ada misteri, beberapa petunjuk yang cukup menantang dan satu kejutan di akhir. Santai saja yaps and enjoy ♡</p>
+   <button class="btn" onclick="mulai()">LETS GO!!!&nbsp; ↗</button>
+   <div class="foot">DIBUAT DENGAN USAHA, ISI HATI DAN JAWABAN DARI PERTANYAAN KU KEMARIN</div>
+  </div>
+ </section>
+
+ <section id="level1" class="screen">
+  <div class="card">
+   <div class="head"><div><div class="level">Level 01 · Pemeriksaan bukti</div><h2>Misteri Ruang Kerja</h2></div><span class="count">01 / 03</span></div>
+   <div class="progress"><span style="width:33%"></span></div>
+   <p class="muted">Sebuah kotak hadiah menghilang dari ruang kerja yang terkunci. Ada enam benda mencurigakan di lokasi. Temukan tiga bukti yang paling berkaitan dengan hilangnya hadiah.</p>
+   <div class="scene">
+    <svg viewBox="0 0 640 360" role="img" aria-label="Ilustrasi ruang kerja detektif dengan jam, jendela, meja, buku, cangkir dan pot tanaman">
+     <defs>
+      <linearGradient id="wall" x2="0" y2="1"><stop stop-color="#40566a"/><stop offset="1" stop-color="#24384c"/></linearGradient>
+      <linearGradient id="floor" x2="0" y2="1"><stop stop-color="#3a4b59"/><stop offset="1" stop-color="#1a2938"/></linearGradient>
+      <linearGradient id="window"><stop stop-color="#9bb1bd"/><stop offset="1" stop-color="#425c72"/></linearGradient>
+     </defs>
+     <rect width="640" height="270" fill="url(#wall)"/><rect y="270" width="640" height="90" fill="url(#floor)"/>
+     <path d="M0 270H640" stroke="#8d9aa0" stroke-width="3"/>
+     <!-- Jendela -->
+     <rect x="420" y="38" width="164" height="150" rx="5" fill="#172737" stroke="#b6a17d" stroke-width="8"/>
+     <rect x="430" y="48" width="144" height="130" fill="url(#window)"/>
+     <path d="M502 48V178M430 112H574" stroke="#d5c5a6" stroke-width="6"/>
+     <circle cx="545" cy="76" r="16" fill="#e4d6b5" opacity=".8"/>
+     <path d="M432 160L466 125L487 145L516 110L574 160V178H432Z" fill="#293e4d"/>
+     <!-- Jam -->
+     <circle cx="125" cy="94" r="39" fill="#d6c6a7" stroke="#172737" stroke-width="7"/>
+     <circle cx="125" cy="94" r="31" fill="#eee4d1"/>
+     <path d="M125 70V94L145 106" stroke="#344657" stroke-width="4" stroke-linecap="round"/>
+     <circle cx="125" cy="94" r="4" fill="#344657"/>
+     <text x="125" y="54" fill="#fff" text-anchor="middle" font-size="10" opacity=".8">JAM</text>
+     <!-- Meja -->
+     <path d="M70 224H570L545 250H92Z" fill="#8b6c53"/><path d="M92 250H545V320H92Z" fill="#5b493e"/>
+     <path d="M118 250V324M516 250V324" stroke="#332f32" stroke-width="13"/>
+     <!-- Buku -->
+     <path d="M220 194Q248 182 275 199V226Q248 210 220 224Z" fill="#e6dfcf" stroke="#27394a" stroke-width="3"/>
+     <path d="M275 199Q301 183 329 195V223Q301 211 275 226Z" fill="#c7b99f" stroke="#27394a" stroke-width="3"/>
+     <path d="M275 199V226" stroke="#6d5d4e" stroke-width="2"/>
+     <!-- Cangkir -->
+     <path d="M360 193H405L400 224H366Z" fill="#e7e1d6" stroke="#293d50" stroke-width="3"/><path d="M405 199Q429 197 419 215Q413 222 402 218" fill="none" stroke="#e7e1d6" stroke-width="6"/><ellipse cx="382" cy="193" rx="22" ry="5" fill="#7b5847"/>
+     <!-- Tanaman -->
+     <path d="M480 190L492 224H535L545 190Z" fill="#b77f69" stroke="#26394a" stroke-width="3"/>
+     <path d="M512 193Q488 157 475 173Q478 195 512 199Q504 158 528 151Q543 174 512 199Q529 163 550 178Q545 199 512 202" fill="#7f9b83" stroke="#243a45" stroke-width="2"/>
+     <!-- Pita -->
+     <path d="M164 232Q180 205 193 231Q207 250 220 226" fill="none" stroke="#c66f78" stroke-width="6" stroke-linecap="round"/>
+     <!-- Jejak kaki -->
+     <path d="M468 289Q451 280 456 263Q461 249 471 260Q482 270 476 286Z" fill="#a9c5d2" opacity=".75"/><circle cx="450" cy="253" r="6" fill="#a9c5d2" opacity=".75"/>
+     <g fill="#f0d49b" stroke="#172638" stroke-width="2">
+      <circle cx="125" cy="94" r="5"/><circle cx="466" cy="270" r="5"/><circle cx="191" cy="231" r="5"/>
+     </g>
+     <text x="22" y="340" fill="#d7c6a5" font-size="11" letter-spacing="2">TEMPAT KEJADIAN · 20:15</text>
+    </svg>
+    <div class="scene-caption">Ilustrasi tempat kejadian perkara · Pilih tiga bukti dari daftar di bawah.</div>
+   </div>
+   <div class="boxnote"><b>Catatan penyelidikan:</b> Jam berhenti tepat pukul 20.15. Jejak kaki basah berakhir di dekat jendela, padahal hujan tidak turun. Serat pita merah tertinggal di atas meja.</div>
+   <div class="hotspots" id="evidence">
+    <button class="hot" data-id="clock" onclick="pilih(this)"><b>◷</b>Jam berhenti<br>20.15</button>
+    <button class="hot" data-id="foot" onclick="pilih(this)"><b>◌</b>Jejak kaki<br>basah</button>
+    <button class="hot" data-id="ribbon" onclick="pilih(this)"><b>⌁</b>Serat pita<br>merah</button>
+    <button class="hot" data-id="book" onclick="pilih(this)"><b>▤</b>Buku terbuka<br>halaman 42</button>
+    <button class="hot" data-id="cup" onclick="pilih(this)"><b>◡</b>Cangkir teh<br>masih hangat</button>
+    <button class="hot" data-id="plant" onclick="pilih(this)"><b>♧</b>Tanaman pot<br>tanah utuh</button>
+   </div>
+   <p id="f1" class="feedback">Petunjuk: pilih tepat tiga bukti, lalu periksa pilihanmu.</p>
+   <div class="btnrow"><button class="btn" onclick="periksa()">PERIKSA BUKTI</button></div>
+  </div>
+ </section>
+
+ <section id="level2" class="screen">
+  <div class="card">
+   <div class="head"><div><div class="level">Level 02 · Kriptografi</div><h2>Pesan Tersandi</h2></div><span class="count">02 / 03</span></div>
+   <div class="progress"><span style="width:66%"></span></div>
+   <svg viewBox="0 0 600 180" style="width:100%;display:block;border-radius:15px;border:1px solid #52677b;margin:12px 0;background:#1b2c3e" role="img" aria-label="Ilustrasi catatan rahasia dengan kaca pembesar">
+    <rect x="0" y="0" width="600" height="180" fill="#26394b"/><path d="M40 25L550 25M40 155L550 155" stroke="#6d8090" stroke-dasharray="4 8"/>
+    <rect x="120" y="25" width="360" height="130" rx="8" fill="#e8ddc8" transform="rotate(-3 300 90)"/>
+    <g transform="rotate(-3 300 90)" fill="#34475a"><text x="300" y="67" font-family="Georgia" font-size="17" text-anchor="middle">CATATAN RAHASIA</text><text x="300" y="103" font-family="monospace" font-weight="bold" font-size="19" text-anchor="middle" letter-spacing="3">WKH NHB LV</text><text x="300" y="128" font-family="monospace" font-weight="bold" font-size="19" text-anchor="middle" letter-spacing="3">XQGHU WKH ERRN</text></g>
+    <circle cx="477" cy="119" r="34" fill="none" stroke="#d8b77c" stroke-width="8"/><path d="M501 144L535 169" stroke="#d8b77c" stroke-width="12" stroke-linecap="round"/>
+   </svg>
+   <p class="muted">Di balik bingkai ditemukan sebuah catatan. Pengirim menggunakan sandi Caesar: setiap huruf digeser tiga langkah maju dalam alfabet. Geser kembali tiga langkah untuk membaca pesannya.</p>
+   <div class="cipher">WKH&nbsp; NHB&nbsp; LV&nbsp; XQGHU&nbsp; WKH&nbsp; ERRN</div>
+   <div class="boxnote"><b>Petunjuk:</b> A menjadi X, B menjadi Y, dan C menjadi Z. Spasi tetap pada tempatnya.</div>
+   <input id="cipher" class="input" autocomplete="off" placeholder="Ketik pesan yang berhasil dipecahkan..." aria-label="Jawaban sandi">
+   <p id="f2" class="feedback">Masukkan kalimat lengkap dalam bahasa Inggris.</p>
+   <div class="btnrow"><button class="btn" onclick="cekSandi()">PECAHKAN SANDI</button></div>
+  </div>
+ </section>
+
+ 
+ <section id="level3" class="screen">
+  <div class="card">
+   <div class="head"><div><div class="level">Level 03 · Logika deduksi</div><h2>Kunci Terakhir</h2></div><span class="count">03 / 03</span></div>
+   <div class="progress"><span style="width:100%"></span></div>
+   <svg viewBox="0 0 600 190" style="width:100%;display:block;border-radius:15px;border:1px solid #52677b;margin:12px 0;background:#1b2c3e" role="img" aria-label="Ilustrasi kotak hadiah terkunci dengan gembok kombinasi">
+    <defs><linearGradient id="gift" x2="0" y2="1"><stop stop-color="#b77e77"/><stop offset="1" stop-color="#81545a"/></linearGradient></defs>
+    <ellipse cx="300" cy="164" rx="150" ry="13" fill="#0d1824" opacity=".6"/>
+    <rect x="180" y="76" width="240" height="82" rx="10" fill="url(#gift)" stroke="#e0bd91" stroke-width="3"/>
+    <path d="M170 76H430V97H170Z" fill="#d8b77c"/>
+    <path d="M286 76V158H314V76" fill="#d8b77c"/>
+    <path d="M300 75C255 42 236 52 252 69Q270 86 300 76Q330 86 348 69C364 52 345 42 300 75Z" fill="#d8b77c" stroke="#f1d9a8" stroke-width="2"/>
+    <rect x="267" y="101" width="66" height="42" rx="7" fill="#26394b" stroke="#e0c18d" stroke-width="3"/>
+    <path d="M281 103V91Q281 77 300 77Q319 77 319 91V103" fill="none" stroke="#e0c18d" stroke-width="7"/>
+    <circle cx="300" cy="120" r="6" fill="#e0c18d"/>
+   </svg>
+   <p class="muted">Hadiah terakhir terkunci dengan kombinasi tiga angka. Lima laporan berikut berisi semua informasi yang kamu butuhkan. Setiap laporan akurat.</p>
+   <div class="lockclues">
+    <div class="lockclue"><b>682</b><span>Satu angka benar dan berada di posisi yang tepat.</span></div>
+    <div class="lockclue"><b>614</b><span>Satu angka benar, tetapi berada di posisi yang salah.</span></div>
+    <div class="lockclue"><b>206</b><span>Dua angka benar, tetapi keduanya berada di posisi yang salah.</span></div>
+    <div class="lockclue"><b>738</b><span>Tidak ada satu pun angka yang digunakan.</span></div>
+    <div class="lockclue"><b>780</b><span>Satu angka benar, tetapi berada di posisi yang salah.</span></div>
+   </div>
+   <input id="lock" class="input" inputmode="numeric" maxlength="3" placeholder="Masukkan kombinasi 3 angka" aria-label="Kombinasi kunci">
+   <p id="f3" class="feedback">Gunakan semua laporan. Tidak perlu menebak secara acak.</p>
+   <div class="btnrow"><button class="btn" onclick="cekKunci()">BUKA KUNCI</button></div>
+  </div>
+ </section>
+
+ <section id="ending" class="screen">
+  <div class="card">
+   <div class="stamp">✓</div>
+   <div class="eyebrow" style="text-align:center">Kasus berhasil diselesaikan</div>
+   <h2 style="text-align:center">Novia Keren Banget.</h2>
+   <p class="muted" style="text-align:center">Novi berhasil menemukan bukti, memecahkan sandi, dan membuka kunci terakhir. Sekarang, hadiah sebenarnya sudah menunggumu.</p>
+   <div class="finalart">
+    <div class="eyebrow" style="color:#9c7950">Pesan ulang tahun untuk Novi.</div>
+    <h2 style="font-size:34px;margin-top:13px">Tetap jadi dirimu yang istimewa.</h2>
+    <p>Semoga babak baru dalam hidupmu dipenuhi orang-orang baik, selalu diberikan kesehatan, banyak kemenangan,banyak rejeki dan suatu hal untuk selalu tersenyum, bukan hanya hari ini tetapi selamanya.</p>
+    <p style="font-size:16px">Kalau hidup ini sebuah permainan, semoga bunga clover selalu berpihak padamu. Terutama keberuntungan yang menyenangkan, you deserve all of it ♡</p>
+    <div class="eyebrow" style="color:#9c7950;margin-top:16px">Akhir kasus bukan berarti berakhir selamanya, there is always more to come.</div>
+   </div>
+   <h3 style="text-align:center">Misi bonus: Hubungi pembuat kejutan </h3>
+   <p class="muted" style="text-align:center">Aku senang membuat petualangan kecil ini untuk novi. Kalau novi gak keberatan dan gak risih, kirim pesan lewat tombol di bawah yah ♡</p>
+   <div class="wa-info"><b>Sudah ada templatenya yah jadi sisa kirim aja, gak perlu ngetik lagi </b></div>
+   <div class="btnrow">
+    <a id="waLink" class="btn whatsapp" href="#" target="_blank" rel="noopener" style="text-decoration:none;display:inline-flex;align-items:center;gap:9px">
+     KLIKNYA DISINI!!!
+    </a>
+   </div>
+   <p class="muted" style="text-align:center;margin-top:12px;font-size:11px">DIBUAT DENGAN USAHA, ISI HATI DAN JAWABAN DARI PERTANYAAN KU KEMARIN</p>
+   <div class="btnrow"><button class="btn alt" onclick="ulang()">MAIN LAGI</button></div>
+  </div>
+ </section>
+ <div class="foot">SEBUAH PETUALANGAN KECIL · JUST FOR YOU🫵🏻</div>
+</div>
+
+<script>
+const nomorWA="628981565806";
+
+function tampil(id){
+ document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function mulai(){tampil('level1')}
+
+let dipilih=new Set();
+
+function pilih(el){
+ let id=el.dataset.id;
+ if(dipilih.has(id)){
+  dipilih.delete(id);
+  el.classList.remove('selected');
+ }else if(dipilih.size<3){
+  dipilih.add(id);
+  el.classList.add('selected');
+ }
+ let f=document.getElementById('f1');
+ f.textContent=`${dipilih.size} dari 3 bukti dipilih.`;
+ f.className='feedback';
+}
+
+function periksa(){
+ let benar=['clock','foot','ribbon'];
+ let f=document.getElementById('f1');
+
+ if(dipilih.size!==3){
+  f.textContent='Pilih tepat tiga bukti terlebih dahulu.';
+  f.className='feedback bad';
+  return;
+ }
+
+ if(benar.every(x=>dipilih.has(x))){
+  f.textContent='Tepat! Ketiga bukti itu saling berkaitan. Lanjutkan penyelidikan.';
+  f.className='feedback good';
+  setTimeout(()=>tampil('level2'),850);
+ }else{
+  f.textContent='Belum tepat. Periksa lagi catatan penyelidikan dan hubungan setiap bukti.';
+  f.className='feedback bad';
+ }
+}
+
+function norm(s){
+ return s.toLowerCase().replace(/[^a-z]/g,'');
+}
+
+function cekSandi(){
+ let v=norm(document.getElementById('cipher').value);
+ let f=document.getElementById('f2');
+
+ if(v==='thekeyisunderthebook'){
+  f.textContent='Sandi berhasil dipecahkan. Kunci berada di bawah buku. Kamu semakin dekat!';
+  f.className='feedback good';
+  setTimeout(()=>tampil('level3'),850);
+ }else{
+  f.textContent='Belum tepat. Geser setiap huruf tiga langkah mundur. Spasi tidak berubah.';
+  f.className='feedback bad';
+ }
+}
+
+function cekKunci(){
+ let v=document.getElementById('lock').value.trim();
+ let f=document.getElementById('f3');
+
+ if(v==='042'){
+  f.textContent='Kunci terbuka. Hadiah ulang tahun berhasil ditemukan!';
+  f.className='feedback good';
+  setTimeout(()=>tampil('ending'),900);
+ }else{
+  f.textContent='Kombinasi belum cocok dengan semua laporan. Periksa lagi posisi angkanya.';
+  f.className='feedback bad';
+ }
+}
+
+function ulang(){
+ dipilih.clear();
+ document.querySelectorAll('.hot').forEach(x=>x.classList.remove('selected'));
+ document.getElementById('cipher').value='';
+ document.getElementById('lock').value='';
+ tampil('opening');
+}
+
+document.getElementById('cipher').addEventListener('keydown',e=>{
+ if(e.key==='Enter')cekSandi();
+});
+document.getElementById('lock').addEventListener('keydown',e=>{
+ if(e.key==='Enter')cekKunci();
+});
+
+const pesan="Kasus 10112002 berhasil dipecahkan! Terima kasih untuk kejutan ulang tahunnya. Aku senang sekali, semoga kita bisa main lagi di lain waktu ♡";
+
+document.getElementById('waLink').href=
+ "https://wa.me/"+nomorWA+"?text="+encodeURIComponent(pesan);
+</script>
+</body>
+</html>
